@@ -105,3 +105,81 @@ func TestInsertLeftRightRotation(t *testing.T) {
 		t.Fail()
 	}
 }
+
+func TestInsertRightLeftRotation(t *testing.T) {
+	x := NewAvlTree()
+	x.Insert(Element{3})
+	x.Insert(Element{6})
+	x.Insert(Element{4})
+
+	if x.root.element.CompareTo(Element{4}) != 0 {
+		t.Fail()
+	}
+	if x.root.rank != 1 {
+		t.Fail()
+	}
+	if x.root.right.rank != 0 {
+		t.Fail()
+	}
+}
+
+func TestInsertBuildFibonacciTree(t *testing.T) {
+	x := NewAvlTree()
+	x.Insert(Element{8})
+	x.Insert(Element{5});x.Insert(Element{11})
+	x.Insert(Element{3});x.Insert(Element{7});x.Insert(Element{10});x.Insert(Element{12})
+	x.Insert(Element{2});x.Insert(Element{4});x.Insert(Element{6});x.Insert(Element{9})
+	x.Insert(Element{1})
+
+	if x.root.element.CompareTo(Element{8}) != 0 {
+		t.Fail()
+	}
+}
+
+func TestFind(t *testing.T) {
+	x := NewAvlTree()
+	x.Insert(Element{3})
+	x.Insert(Element{2})
+	x.Insert(Element{4})
+	x.Insert(Element{1})
+
+	n := x.Find(Element{4})
+
+	if (n.element.CompareTo(Element{4}) != 0) {
+		t.Fail()
+	}
+}
+
+func TestDeleteOneRightRotation(t *testing.T) {
+	x := NewAvlTree()
+	x.Insert(Element{3})
+	x.Insert(Element{2})
+	x.Insert(Element{4})
+	x.Insert(Element{1})
+
+	printInOrderAVL(x.root)
+	x.Delete(Element{4})
+
+	printInOrderAVL(x.root)
+}
+
+
+func TestDeleteFibonacciTree(t *testing.T) {
+	x := NewAvlTree()
+	x.Insert(Element{8})
+	x.Insert(Element{5});x.Insert(Element{11})
+	x.Insert(Element{3});x.Insert(Element{7});x.Insert(Element{10});x.Insert(Element{12})
+	x.Insert(Element{2});x.Insert(Element{4});x.Insert(Element{6});x.Insert(Element{9})
+	x.Insert(Element{1})
+
+	if x.root.element.CompareTo(Element{8}) != 0 {
+		t.Fail()
+	}
+
+	x.Delete(Element{12})
+	//
+	//if x.root.element.CompareTo(Element{5}) != 0 {
+	//	t.Fail()
+	//}
+}
+

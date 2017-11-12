@@ -223,16 +223,16 @@ func (tree *AvlTree) Delete(e Comparable) bool {
 
 		if parent != nil {
 			if node == parent.left {
-				node.parent.left = nil
+				parent.left = nil
 				sibling = parent.right
 			} else if node == parent.right {
-				node.parent.right = nil
+				parent.right = nil
 				sibling = parent.left
 			}
 			node.parent = nil
 		}
 
-		tree.retraceDelete(node, sibling, parent)
+		tree.retraceDelete(parent, sibling, node)
 	}
 
 	tree.size--
