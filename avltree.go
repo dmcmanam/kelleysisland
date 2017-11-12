@@ -6,11 +6,11 @@ type AvlTree struct {
 }
 
 type AvlNode struct {
-	element	Comparable
-	rank	uint8 // height in AVL trees, not exactly height in RAVL/WAVL trees
-	parent 	*AvlNode
-	left   	*AvlNode
-	right  	*AvlNode
+	element Comparable
+	rank    uint8 // height in AVL trees, not exactly height in RAVL/WAVL trees
+	parent  *AvlNode
+	left    *AvlNode
+	right   *AvlNode
 }
 
 type Comparable interface {
@@ -82,11 +82,10 @@ func (tree *AvlTree) Insert(e Comparable) {
 }
 
 func (tree *AvlTree) retrace(x *AvlNode) {
-	for parent := x.parent;
-		parent != nil && x.rank + 1 != parent.rank; x.rank++ {
+	for parent := x.parent; parent != nil && x.rank+1 != parent.rank; x.rank++ {
 		if parent.left == x { // new node added on the left
 			if needToRotateRight(parent) {
-				if x.left == nil || x.rank >= x.left.rank + 2 {
+				if x.left == nil || x.rank >= x.left.rank+2 {
 					x.rank--
 					x.right.rank++
 					tree.rotateLeft(x)
@@ -97,7 +96,7 @@ func (tree *AvlTree) retrace(x *AvlNode) {
 			}
 		} else {
 			if needToRotateLeft(parent) {
-				if x.right == nil || x.rank >= x.right.rank + 2 {
+				if x.right == nil || x.rank >= x.right.rank+2 {
 					x.rank--
 					x.left.rank++
 					tree.rotateRight(x)
@@ -112,13 +111,13 @@ func (tree *AvlTree) retrace(x *AvlNode) {
 	}
 }
 
-func needToRotateRight(p *AvlNode) bool{
+func needToRotateRight(p *AvlNode) bool {
 	if p.right == nil {
 		if p.rank == 1 {
 			return true
 		}
 		return false
-	} else if p.rank >= p.right.rank + 2 {
+	} else if p.rank >= p.right.rank+2 {
 		return true
 	}
 	return false
@@ -130,14 +129,14 @@ func needToRotateLeft(p *AvlNode) bool {
 			return true
 		}
 		return false
-	} else if p.rank >= p.left.rank + 2 {
+	} else if p.rank >= p.left.rank+2 {
 		return true
 	}
 	return false
 }
 
 /** from CLR */
-func (tree *AvlTree)rotateRight(p *AvlNode) {
+func (tree *AvlTree) rotateRight(p *AvlNode) {
 	l := p.left
 	p.left = l.right
 	if l.right != nil {
@@ -156,7 +155,7 @@ func (tree *AvlTree)rotateRight(p *AvlNode) {
 }
 
 /** from CLR */
-func (tree *AvlTree)rotateLeft(p *AvlNode) {
+func (tree *AvlTree) rotateLeft(p *AvlNode) {
 	r := p.right
 	p.right = r.left
 	if r.left != nil {
@@ -187,8 +186,8 @@ func (tree *AvlTree) Delete(e Comparable) bool {
 	// if node has 2 children we need the successor or predecessor node
 	if node.left != nil && node.right != nil {
 		s := tree.Successor(node)
-		node.element = s.element  // overwrite node's value with successor's
-		node = s // then setup to delete the successor
+		node.element = s.element // overwrite node's value with successor's
+		node = s                 // then setup to delete the successor
 	}
 
 	replacement := node.right
@@ -211,7 +210,9 @@ func (tree *AvlTree) Delete(e Comparable) bool {
 			sibling = node.parent.left
 		}
 
-		node.left = nil; node.right = nil; node.parent = nil
+		node.left = nil
+		node.right = nil
+		node.parent = nil
 
 		tree.retraceDelete(replacement.parent, sibling, replacement)
 	} else if node.parent == nil {
@@ -241,14 +242,14 @@ func (tree *AvlTree) Delete(e Comparable) bool {
 func (tree *AvlTree) retraceDelete(parent *AvlNode, sibling *AvlNode, node *AvlNode) {
 	var balance int
 	if sibling == nil {
-		balance = - 1 - int(node.rank)
+		balance = -1 - int(node.rank)
 	} else {
 		balance = int(sibling.rank) - int(node.rank)
 	}
 
-	for ; balance != 1 ; balance = int(sibling.rank) - int(node.rank) {
+	for ; balance != 1; balance = int(sibling.rank) - int(node.rank) {
 		if balance == 0 {
-			parent.rank--;
+			parent.rank--
 		} else if parent.left == sibling {
 			parent.rank -= 2
 			siblingBalance := rank(sibling.right) - rank(sibling.left)
