@@ -157,12 +157,9 @@ func TestDeleteOneRightRotation(t *testing.T) {
 	x.Insert(Element{4})
 	x.Insert(Element{1})
 
-	printInOrderAVL(x.root)
+
 	x.Delete(Element{4})
-
-	printInOrderAVL(x.root)
 }
-
 
 func TestDeleteFibonacciTree(t *testing.T) {
 	x := NewAvlTree()
@@ -177,9 +174,12 @@ func TestDeleteFibonacciTree(t *testing.T) {
 	}
 
 	x.Delete(Element{12})
-	//
-	//if x.root.element.CompareTo(Element{5}) != 0 {
-	//	t.Fail()
-	//}
-}
 
+	if x.root.element.CompareTo(Element{5}) != 0 {
+		t.Error("Root element should be 5 but instead: ",  x.root.element);
+	}
+	if x.root.right.rank != 2 {
+		t.Fail()
+	}
+	printInOrderAVL(x.root)
+}

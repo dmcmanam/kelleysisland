@@ -231,7 +231,8 @@ func (tree *AvlTree) Delete(e Comparable) bool {
 			}
 			node.parent = nil
 		}
-
+		node.parent = nil
+		node.rank--
 		tree.retraceDelete(parent, sibling, node)
 	}
 
