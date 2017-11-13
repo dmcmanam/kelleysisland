@@ -44,7 +44,9 @@ func (tree *AvlTree) Find(e Comparable) *AvlNode {
 
 func (tree *AvlTree) Insert(e Comparable) {
 	if tree.root == nil {
-		// todo assert element is valid for later compares
+		if e.CompareTo(e) != 0 {
+			return
+		}
 		tree.root = &AvlNode{e, 0, nil, nil, nil}
 		tree.size = 1
 		return
@@ -313,7 +315,11 @@ func (tree *AvlTree) Successor(node *AvlNode) *AvlNode {
 		}
 		return node
 	} else {
-		//todo
-		return nil
+		parent := node.parent
+		for ;parent != nil && node == parent.right; {
+			node = parent
+			parent = parent.parent
+		}
+		return parent;
 	}
 }
